@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>Document</title>
+    <script src="https://kit.fontawesome.com/a2d9d5f285.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <!-- BARRE UTILISATEUR -->
+  <div class="user-bar">
+    <div class="user-info">
+      <img src="https://ui-avatars.com/api/?name=Utilisateur" alt="Avatar de l'utilisateur" />
+      <div>
+        <div class="username">Nom d'utilisateur</div>
+      </div>
+    </div>
+    <button class="logout-btn">Se déconnecter</button>
+  </div>
+
+  <!-- TABLEAU DES PROFILS -->
+  <div class="table-container">
+    <h2 class="text-center">Liste des Profils</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom d'utilisateur</th>
+          <th>Bio</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="profile-list">
+        <!-- Contenu généré dynamiquement -->
+      </tbody>
+    </table>
+  </div>
+    
+    <script src="main.js" defer></script>
+</body>
+</html>
