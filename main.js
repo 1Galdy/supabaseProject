@@ -1,8 +1,7 @@
 // require('dotenv').config();
 
-const db = "https://laayvzrxudazcfvkouuv.supabase.co";
-const keyPublic = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxhYXl2enJ4dWRhemNmdmtvdXV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4NzI1NTMsImV4cCI6MjA3NDQ0ODU1M30.kZiMZJYJHO2ZwbvMEeJhEXYbLOd6AuZRQm8Uo2eW2Nk";
-const key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxhYXl2enJ4dWRhemNmdmtvdXV2Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1ODg3MjU1MywiZXhwIjoyMDc0NDQ4NTUzfQ.xXgCD0J1L_YvIvdlKGO08CO4Cl5tBMMIKKAdpZrzQf4";
+const db = "";
+const key = "";
 
 // Variables global
 let info = null;
