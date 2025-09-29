@@ -1,6 +1,6 @@
 // ✅ Corriger l'URL de base Supabase
-const db = "https://laayvzrxudazcfvkouuv.supabase.co";
-const key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxhYXl2enJ4dWRhemNmdmtvdXV2Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1ODg3MjU1MywiZXhwIjoyMDc0NDQ4NTUzfQ.xXgCD0J1L_YvIvdlKGO08CO4Cl5tBMMIKKAdpZrzQf4";
+const db = "";
+const key = "";
 
 const supabaseClient = supabase.createClient(db, key);
 
@@ -64,21 +64,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     tableBody.appendChild(tr);
   });
 
-  // ✅ Déconnexion
-  document.getElementById('logout').addEventListener('click', async () => {
-    await supabaseClient.auth.signOut();
-    localStorage.removeItem('user_id');
-    window.location.href = 'login.html';
-  });
-});
-
-
-  // Ajoute les gestionnaires pour modifier et supprimer la bio
+  // ✅ Gestion des boutons modifier / supprimer
   tableBody.addEventListener('click', async (event) => {
     const target = event.target;
     const id = target.dataset.id;
 
-    // Modification de la bio
+    if (!id) return;
+
+    // Modification
     if (target.classList.contains('edit-btn')) {
       const nouvelleBio = prompt("Entrez la nouvelle bio :");
       if (nouvelleBio !== null) {
@@ -91,15 +84,14 @@ document.addEventListener('DOMContentLoaded', async () => {
           alert("Erreur lors de la mise à jour : " + updateError.message);
         } else {
           alert("Bio mise à jour !");
-          location.reload(); // Recharge pour voir les changements
+          location.reload();
         }
       }
     }
 
-    // Suppression de la bio (mettre à vide)
+    // Suppression
     if (target.classList.contains('delete-btn')) {
       const confirmation = confirm("Supprimer la bio ?");
-
       if (confirmation) {
         const { error: deleteError } = await supabaseClient
           .from('profiles')
@@ -110,8 +102,16 @@ document.addEventListener('DOMContentLoaded', async () => {
           alert("Erreur lors de la suppression : " + deleteError.message);
         } else {
           alert("Bio supprimée !");
-          location.reload(); // Recharge la page
+          location.reload();
         }
       }
     }
   });
+
+  // ✅ Déconnexion
+  document.getElementById('logout').addEventListener('click', async () => {
+    await supabaseClient.auth.signOut();
+    localStorage.removeItem('user_id');
+    window.location.href = 'login.html';
+  });
+});
