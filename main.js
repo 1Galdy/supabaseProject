@@ -5,69 +5,35 @@ const keyPublic = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIs
 const key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxhYXl2enJ4dWRhemNmdmtvdXV2Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1ODg3MjU1MywiZXhwIjoyMDc0NDQ4NTUzfQ.xXgCD0J1L_YvIvdlKGO08CO4Cl5tBMMIKKAdpZrzQf4";
 
 // Variables global
-let info = null;
-let res = null;
-let userId = null;
+let info = document.getElementById('infos');
 
-// Create a single supabase client for interacting with your database
+// Création d'un client unique pour interagir avec ma base de données
 const supabaseClient = supabase.createClient(db, key);
 
-async function signUpAndCreateProfile(email, password) {
-    // 1. Créer l'utilisateur
-    const { data: signUpData, error: signUpError } = await supabaseClient.auth.signUp({
-        email: email,
-        password: password,
-    });
+// ------------------------ Appelle de la fonction après redirection vers la page accueil(index) si le profil n’existe pas encore -----------------------------
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------
+async function InsertProfile(username, bio) {
+  const { data: { user } } = await supabaseClient.auth.getUser();
 
-    if (signUpError) {
-        // console.error("Erreur de création d'utilisateur :", signUpError);
-        info = document.getElementById('infos');
-        res = `<p style="color: red;">Le mail ou les infos renseignées ne sont pas valide</p>`;
-        info.innerHTML = res;
-        return;
-    }
+  if (!user) {
+    console.error("Aucun utilisateur connecté");
+    return;
+  }
 
-    // userId = signUpData.user?.id;
-    userId = [
-        {
-            id: signUpData.user?.id,
-            name: signUpData.user?.name,
-            name: signUpData.user?.email,
-        }
-    ]
+  const { data, error } = await supabaseClient
+    .from('profiles')
+    .insert([{ id: user.id, username, bio }]);
 
-    if(userId){
-        window.location.href = "index.html?id="+userId;
-        GetAllUsers();
-    }else{
-        info = document.getElementById('infos');
-        res = `<p style="color: red;">Erreur de création de l'utilisateur</p>`;
-        info.innerHTML = res;
-        return;
-    }
-    // console.log("Nouvel utilisateur ID :", userId);
-    // InsertProfile(userId, 'John Doe', 'I am a software engineer');
+  if (error) {
+    console.error("Erreur création profil :", error.message);
+  } else {
+    console.log("Profil créé avec succès", data);
+  }
 }
 
-// signUpAndCreateProfile("brechtdianzinga@gmail.com", "password123");
 
-async function signInGetUsers(usersemail, userspassword) {
-    const { data, error } = await supabaseClient.auth.signInWithPassword({
-        email: usersemail,
-        password: userspassword,
-    })
-    if(error){
-        console.error("Erreur de connexion :", error);
-        return;
-    }
-    // console.log(data);
-    const user = data.user?.id;
-    console.log("Utilisateur ID :", user);
-    InsertProfile(user, 'Brecht', "Vérification de l'insert après auth");
-}
-
-// signInGetUsers("brechtdianzinga@gmail.com", "password123");
-
+// ------------------------ Fonction pour la récupération du profile -----------------------------
+//------------------------------------------------------------------------------------------------
 async function fetchProfiles() {
     let { data: profiles, error } = await supabaseClient
        .from('profiles')
@@ -81,46 +47,54 @@ async function fetchProfiles() {
 
 // fetchProfiles();
 
-async function GetAllUsers() {
-    const params = new URLSearchParams(window.location.search);
-    const userDatas = params.get('id');
-    alert("Données " + userDatas.id);
+// ------------------------ function de déconnexion -----------------------------
+//-------------------------------------------------------------------------------
+const logoutButton = document.getElementById('logout');
+logoutButton.addEventListener('click', () => {
+    logout();
+});
+
+async function logout() {
+    const { error } = await supabaseClient.auth.signOut();
+
+    if (error) {
+        console.error("Erreur déconnexion :", error.message);
+        return;
+    }
+
+    // Nettoyage localStorage si besoin
+    localStorage.removeItem("user_id");
+    // Redirection vers page de login
+    window.location.href = "login.html";
 }
 
-async function InsertProfile(id, username, bio){
+// ------------------------ Fonction pour la création d'un profil -----------------------------
+//---------------------------------------------------------------------------------------------
+// async function InsertProfile(id, username, bio){
     
-const { data, error } = await supabaseClient
+// const { data, error } = await supabaseClient
 
-  .from('profiles')
-  .insert([
-    {id: id, username: username, bio: bio },
-  ])
-  .select()
-  if(error){
-    console.error(error);
-    return;
-  }   
-} 
+//   .from('profiles')
+//   .insert([
+//     {id: id, username: username, bio: bio },
+//   ])
+//   .select()
+//   if(error){
+//     console.error(error);
+//     return;
+//   }   
+// } 
 
 
-// Functions avec front en design
-
-const inscriptionButton = document.getElementById('inscription');
-
-inscriptionButton.addEventListener('click', () => {
-
-    const email = document.getElementById('signup-email').value.trim();
-    const password = document.getElementById('signup-password').value.trim();
-
-    if(email && password){
-        info = document.getElementById('infos');
-        res = `<p style="color: green;">Inscription réussie ! Création du compte...</p>`;
-        info.innerHTML = res;
-        signUpAndCreateProfile(email, password);
-    }
-    else{
-        info = document.getElementById('infos');
-        res = `<p style="color: red;">Veuillez remplir tous les champs!</p>`;
-        info.innerHTML = res;
-    }
-});
+//---------------------------- Fonction pour détecter automatiquement l'utilisateur sur toutes les pages -----------------------------
+//------------------------------------------------------------------------------------------------------------------------------------
+// window.addEventListener("DOMContentLoaded", async () => {
+//   const { data: { user } } = await supabaseClient.auth.getUser();
+//   if (!user) {
+//     // Redirige s’il n’est pas connecté
+//     window.location.href = "login.html";
+//   } else {
+//     console.log("Utilisateur connecté :", user.email);
+//     window.location.href = "index.html";
+//   }
+// });

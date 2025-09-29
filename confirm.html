@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <title>Confirmation de l'adresse e-mail</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background: var(--background);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .confirmation-box {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 100%;
+    }
+
+    .confirmation-box h1 {
+      font-size: 1.5rem;
+      color: var(--text-dark);
+      margin-bottom: 20px;
+    }
+
+    .confirmation-box p {
+      font-size: 1.05rem;
+      color: var(--text-light);
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .confirmation-box button {
+      padding: 12px 24px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .confirmation-box button:hover {
+      background-color: var(--primary-hover);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="confirmation-box">
+    <h1>Adresse e-mail confirmée</h1>
+    <p>
+      Merci d’avoir confirmé votre adresse e-mail.<br>
+      Pour finaliser l’activation de votre compte, veuillez cliquer sur le bouton ci-dessous.<br>
+      Vous serez ensuite redirigé vers la plateforme.
+    </p>
+    <button id="confirm_compte">Activer mon compte</button>
+  </div>
+
+  <script src="confirm.js"></script>
+
+</body>
+</html>

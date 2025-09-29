@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <title>Inscription</title>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -13,13 +14,13 @@
   <div class="container">
     <h2>Créer un compte</h2>
     <input type="email" id="signup-email" placeholder="Email" />
+    <input type="text" id="signup-name" placeholder="Nom d'utilisateur" />
     <input type="password" id="signup-password" placeholder="Mot de passe" />
-    <input type="number" id="signup-confirm-number" placeholder="Confirmer le numéro de téléphone" />
+    <input type="number" id="signup-phone" placeholder="Numéro de téléphone" />
     <button id="inscription">S'inscrire</button>
     <p class="message">Déjà inscrit ? <a href="login.html">Connexion</a></p>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="main.js"></script>
+  <script src="inscription.js"></script>
 </body>
 </html>
